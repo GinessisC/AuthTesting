@@ -1,6 +1,5 @@
 namespace AuthTesting.Contracts.Requests;
 
-public class RegisterRequest
-{
-	
-}
+public sealed record RegisterRequest(
+	string Name,
+	string Password);

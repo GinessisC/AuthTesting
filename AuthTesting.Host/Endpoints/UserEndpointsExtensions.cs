@@ -1,33 +1,35 @@
-using System.Security.Claims;
 using AuthTesting.Application.Abstractions.Services;
+using AuthTesting.Contracts.Options;
 using AuthTesting.Contracts.Requests;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using AuthTesting.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AuthTesting.Host.Extensions.Endpoints;
+namespace AuthTesting.Host.Endpoints;
 
 public static class UserEndpointsExtensions
 {
 	public static IEndpointRouteBuilder UseUserEndpoints(this IEndpointRouteBuilder endpoints)
 	{
-		var group = endpoints.MapGroup("/user").WithTags("User");
+		RouteGroupBuilder group = endpoints.MapGroup("/user").WithTags("User");
 		group.MapGet("/{name}", GetUserAsync);
-		group.MapPost("/register", RegisterUserAsync); //TODO why post
+		group.MapPost("/register", RegisterUserAsync);
 		group.MapPost("/login", LoginUserAsync);
-		
+
 		return endpoints;
 	}
 
-	private static async Task<IResult> GetUserAsync([FromServices] IUserService service, string name)
+	private static async Task<IResult> GetUserAsync(
+		[FromServices] IUserService service,
+		string name)
 	{
-		var user = await service.GetByNameAsync(name);
+		User? user = await service.GetUserByNameAsync(name);
 
 		if (user == null)
 		{
 			return Results.NotFound(user);
 		}
+
 		return Results.Ok(user);
 	}
 
@@ -37,18 +39,28 @@ public static class UserEndpointsExtensions
 
 		return Results.Ok();
 	}
+
+	/// <summary>
+	///     puts jwt token in cookies so that it can be checked when it is challenge time
+	/// </summary>
+	/// <param name="service"></param>
+	/// <param name="request"></param>
+	/// <param name="context"></param>
+	/// <returns></returns>
 	private static async Task<IResult> LoginUserAsync(
 		[FromServices] IUserService service,
 		LoginRequest request,
 		HttpContext context)
 	{
-		var jwt = await service.LoginAsync(request);
+		string jwt = await service.LoginAsync(request);
 
 		if (jwt.IsNullOrEmpty())
 		{
 			return Results.Unauthorized();
 		}
-		context.Response.Cookies.Append("token", jwt);
+
+		context.Response.Cookies.Append(CustomCookieOptions.AuthenticationTokenName, jwt);
+
 		return Results.Ok();
 	}
 }

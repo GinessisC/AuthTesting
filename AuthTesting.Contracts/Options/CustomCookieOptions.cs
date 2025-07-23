@@ -1,6 +1,6 @@
 namespace AuthTesting.Contracts.Options;
 
-public class CookieOptions
+public static class CustomCookieOptions
 {
-	public string TokenCookieName { get; set; } = string.Empty;
+	public const string AuthenticationTokenName = "jwt_token";
 }

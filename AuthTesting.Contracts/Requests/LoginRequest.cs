@@ -1,6 +1,5 @@
 namespace AuthTesting.Contracts.Requests;
 
-public class LoginRequest
-{
-	
-}
+public sealed record LoginRequest(
+	string Username,
+	string Password);

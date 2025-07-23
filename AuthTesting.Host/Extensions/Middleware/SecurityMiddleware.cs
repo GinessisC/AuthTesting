@@ -1,21 +1,24 @@
-using Microsoft.AspNetCore.CookiePolicy;
-
-namespace AuthTesting.Host.Middleware;
+namespace AuthTesting.Host.Extensions.Middleware;
 
 public static class SecurityMiddleware
 {
-	public static WebApplication UseSecurityMiddleware(this WebApplication app)
+	public static WebApplication UseSecurityMiddleware(this WebApplication app, IConfiguration configuration)
 	{
+		CookiePolicyOptions? cookiePolicyOptions =
+			configuration.GetSection(nameof(CookiePolicyOptions)).Get<CookiePolicyOptions>();
+
+		if (cookiePolicyOptions is null)
+		{
+			throw new NullReferenceException("Some options are missing.");
+		}
+
 		app
+			.UseHttpsRedirection()
+			.UseCookiePolicy(
+				cookiePolicyOptions) //checks if CookiePolicyOptions exist in services. Uses injected policy
 			.UseAuthentication()
 			.UseAuthorization();
-		
-		app.UseCookiePolicy(new CookiePolicyOptions() //for additional security
-		{
-			MinimumSameSitePolicy = SameSiteMode.Strict,
-			HttpOnly = HttpOnlyPolicy.Always,
-			Secure = CookieSecurePolicy.Always
-		});
+
 		return app;
 	}
 }

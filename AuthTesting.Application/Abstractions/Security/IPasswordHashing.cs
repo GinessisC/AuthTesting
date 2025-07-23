@@ -1,4 +1,4 @@
-namespace AuthTesting.Infrastructure.Security.Abstractions;
+namespace AuthTesting.Application.Abstractions.Security;
 
 public interface IPasswordHashing
 {

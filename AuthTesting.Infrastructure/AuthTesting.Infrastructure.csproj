@@ -7,23 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AuthTesting.Contracts\AuthTesting.Contracts.csproj"/>
-        <ProjectReference Include="..\AuthTesting.Domain\AuthTesting.Domain.csproj"/>
+        <ProjectReference Include="..\AuthTesting.Application\AuthTesting.Application.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Data\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="Data\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Data\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.18"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0-preview.6.25358.103"/>
     </ItemGroup>
 

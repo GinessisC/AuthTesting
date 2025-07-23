@@ -1,4 +1,4 @@
-namespace AuthTesting.Host.Extensions.Endpoints;
+namespace AuthTesting.Host.Endpoints;
 
 public static class ApiEndpointsExtensions
 {
@@ -8,9 +8,7 @@ public static class ApiEndpointsExtensions
 			.UseTestEndpointsForAuthorization()
 			.UseCoursesEndpoints()
 			.UseUserEndpoints();
-		
+
 		return endpoints;
 	}
-
-	
 }

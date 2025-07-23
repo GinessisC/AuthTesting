@@ -1,6 +1,6 @@
 using AuthTesting.Domain.Enums;
 
-namespace AuthTesting.Domain;
+namespace AuthTesting.Domain.Entities;
 
 public class User
 {

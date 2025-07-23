@@ -1,8 +1,8 @@
-using AuthTesting.Domain;
+using AuthTesting.Domain.Entities;
 
 namespace AuthTesting.Application.Abstractions.Repositories;
 
-public interface IRepository
+public interface ICourseRepository
 {
 	Task<Course?> GetByIdAsync(int id);
 }

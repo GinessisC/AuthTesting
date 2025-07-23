@@ -6,4 +6,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\AuthTesting.Application\AuthTesting.Application.csproj"/>
+        <ProjectReference Include="..\AuthTesting.Contracts\AuthTesting.Contracts.csproj"/>
+        <ProjectReference Include="..\AuthTesting.Infrastructure\AuthTesting.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3"/>
+    </ItemGroup>
+
 </Project>

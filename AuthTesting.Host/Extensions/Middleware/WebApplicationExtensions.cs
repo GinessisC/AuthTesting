@@ -1,15 +1,15 @@
 using AuthTesting.Host.Endpoints;
 
-namespace AuthTesting.Host.Middleware;
+namespace AuthTesting.Host.Extensions.Middleware;
 
 public static class WebApplicationExtensions
 {
-	public static WebApplication UseApiMiddlewares(this WebApplication app)
+	public static WebApplication UseApiMiddlewares(this WebApplication app, IConfiguration configuration)
 	{
-		app.UseApiEndpoints();
+		app
+			.UseSecurityMiddleware(configuration)
+			.UseApiEndpoints();
 
-		app.UseSecurityMiddleware();
-		
 		return app;
 	}
 }
